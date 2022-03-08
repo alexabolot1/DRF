@@ -14,6 +14,9 @@ class ProjectModelSerializer(ModelSerializer):
 
 class NotesModelSerializer(ModelSerializer):
 
+    author_note = serializers.StringRelatedField()
+    project_name = serializers.StringRelatedField()
+
     class Meta:
         model = Notes
         fields = '__all__'

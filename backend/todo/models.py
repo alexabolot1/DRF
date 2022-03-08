@@ -17,3 +17,4 @@ class Notes(models.Model):
     create_datatime = models.DateField(auto_now_add=True)
     update_datatime = models.DateField(auto_now=True)
     author_note = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)
