@@ -16,5 +16,8 @@ class Notes(models.Model):
     text_note = models.TextField()
     create_datatime = models.DateField(auto_now_add=True)
     update_datatime = models.DateField(auto_now=True)
-    author_note = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    author_note = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.project_name}'
