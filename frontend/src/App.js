@@ -3,9 +3,17 @@ import logo from './logo.svg';
 import './App.css';
 import UserList from "./components/Users";
 import axios from "axios";
-import {HashRouter, BrowserRouter, Route, Routes, Link, useLocation, Navigate} from 'react-router-dom'
+import {BrowserRouter, Route, Routes, Link, useLocation, Navigate} from 'react-router-dom'
 import ProjectList from "./components/Projects";
 import NoteList from "./components/Notes";
+import ProjectsInfo from "./components/ProjectInfo";
+
+const NotFound = () => {
+    let location = useLocation()
+    return (
+        <div> К сожалению страница  "{location.pathname}" не найдена :( </div>
+    )
+}
 
 class App extends React.Component {
     constructor(props) {
@@ -53,9 +61,21 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <UserList users={this.state.users}/>
-                <ProjectList projects={this.state.projects}/>
-                <NoteList notes={this.state.notes}/>
+                <BrowserRouter>
+                    <nav>
+                        <li><Link to='/'>Users</Link></li>
+                        <li><Link to='/notes'>Notes</Link></li>
+                        <li><Link to='/projects'>Projects</Link></li>
+                    </nav>
+                    <Routes>
+                        <Route exact path='/' element = {<UserList users={this.state.users} />} />
+                        <Route exact path='/notes' element = {<NoteList notes={this.state.notes} />} />
+                        <Route exact path='/projects' element = {<ProjectList projects={this.state.projects} />} />
+                        <Route exact path='/users' element = {<Navigate to='/' />} />
+                        <Route path='/projects/:id' element = {<ProjectsInfo projects={this.state.projects} />} />
+                        <Route path="*" element = {<NotFound />} />
+                    </Routes>
+                </BrowserRouter>
             </div>
         )
     }
