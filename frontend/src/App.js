@@ -2,15 +2,18 @@ import React from "react";
 import logo from './logo.svg';
 import './App.css';
 import UserList from "./components/Users";
-import Menu from "./components/ Menu";
-import Footer from "./components/Footer";
 import axios from "axios";
+import {HashRouter, BrowserRouter, Route, Routes, Link, useLocation, Navigate} from 'react-router-dom'
+import ProjectList from "./components/Projects";
+import NoteList from "./components/Notes";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            'users': []
+            'users': [],
+            'projects': [],
+            'notes': []
         }
     }
 
@@ -25,37 +28,37 @@ class App extends React.Component {
                 )
             }).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/menu/')
+        axios.get('http://127.0.0.1:8000/api/projects/')
             .then(response => {
-                const menu = response.data
+                const projects = response.data
                 this.setState(
                     {
-                        'menu': menu
+                        'projects': projects.results
                     })
 
             }).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/footer/')
+        axios.get('http://127.0.0.1:8000/api/notes/')
             .then(response => {
-                const footer = response.data
+                const notes = response.data
                 this.setState(
                     {
-                        'footer': footer
+                        'notes': notes.results
                     })
 
             }).catch(error => console.log(error))
+
     }
 
     render() {
         return (
             <div>
-                <Menu menu={this.state.menu}/>
                 <UserList users={this.state.users}/>
-                <Footer footer={this.state.footer}/>
+                <ProjectList projects={this.state.projects}/>
+                <NoteList notes={this.state.notes}/>
             </div>
         )
     }
 }
-
 
 export default App;
