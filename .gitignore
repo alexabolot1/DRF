@@ -1,2 +1,8 @@
-/venv/
-.idea/
+db.sqlite3
+/.idea
+node_modules
+local_settings.py
+venv
+__pycache__
+package-lock.json
+yarn.lock
