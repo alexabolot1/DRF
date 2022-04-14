@@ -10,7 +10,16 @@ from users.models import CustomUser
 
 class TestProjectApi(TestCase):
 
-    def test_get_list(self):
+    # падает с 401 ошибкой, так как premisson указан в настройках, на время комментил premission
+    def test_get_projects(self):
+        factory = APIRequestFactory()
+        request = factory.get('/api/projects')
+        view = ProjectCustomViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 0)
+
+    def test_get_projects_1(self):
         factory = APIRequestFactory()
         user = CustomUser.objects.create_superuser('django', email='django@mail.com', password='geekbrains')
         request = factory.get('/api/projects')
@@ -20,24 +29,17 @@ class TestProjectApi(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
 
-    def test_get_list_1(self):
-        factory = APIRequestFactory()
-        request = factory.get('/api/projects')
-        view = ProjectCustomViewSet.as_view({'get': 'list'})
-        Project.objects.create(users='django', project_name='project_django', link='https://django.com')
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-
-    def test_get_list_2(self):
+    # падает с 401 ошибкой, так как premisson указан в настройках, на время комментил premission
+    def test_get_projects_2(self):
         client = APIClient()
         response = client.get('/api/projects/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
 
-    def test_get_list_3(self):
+    # падает с 401 ошибкой, так как premisson указан в настройках, на время комментил premission
+    def test_get_projects_3(self):
         client = APIClient()
-        Project.objects.create(users='django', project_name='project_django', link='https://django.com')
+        Project.objects.create(name='project_django', link='https://django.com')
         response = client.get('/api/projects/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
@@ -46,15 +48,14 @@ class TestProjectApi(TestCase):
 class TestProjectClientApi(APITestCase):
     def setUp(self) -> None:
         self.project = mixer.blend(Project, link='https://django.com')
-        self.admin = User.objects.create_superuser('django', email='django@mail.com', password='geekbrains')
+        self.admin = CustomUser.objects.create_superuser('django', email='django@mail.com', password='geekbrains')
 
-    def test_get_list(self):
+    def test_get_projects(self):
         self.client.login(username='django', password='geekbrains')
-        self.client.logout()
         response = self.client.get('/api/projects/')
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_list_1(self):
+    def test_get_projects_1(self):
         self.client.force_login(self.admin)
         response = self.client.get('/api/projects/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
