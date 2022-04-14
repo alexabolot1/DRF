@@ -47,7 +47,7 @@ class TestProjectApi(TestCase):
 
 class TestProjectClientApi(APITestCase):
     def setUp(self) -> None:
-        self.project = mixer.blend(Project)
+        self.project = mixer.blend(Project, link='https://django.com')
         self.admin = CustomUser.objects.create_superuser('django', email='django@mail.com', password='geekbrains')
 
     def test_get_projects(self):
