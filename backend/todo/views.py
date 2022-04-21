@@ -20,7 +20,7 @@ class ProjectCustomViewSet(ModelViewSet):
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     # pagination_class = ProjectLimitOffsetPagination
 
-    # Фильтрация по названию - в названии должно присутствовать слово project
+    # Фильтрация по названию - в названии должно присутствовать слово project.
     def get_queryset(self):
         return Project.objects.filter(name__contains='project')
 
