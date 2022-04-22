@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
+from graphene_django.views import GraphQLView
 from rest_framework.permissions import AllowAny
 from rest_framework.routers import DefaultRouter
 from todo.views import ProjectCustomViewSet, NotesCustomViewSet
@@ -33,4 +34,5 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0),
          name='schema-swagger-ui'),
     re_path(r'^swagger(?P<format>\.json|\.yaml)', schema_view.without_ui()),
+    path("graphql/", GraphQLView.as_view(graphiql=True)),
 ]
