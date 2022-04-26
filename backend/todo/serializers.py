@@ -16,7 +16,7 @@ class NotesModelSerializer(ModelSerializer):
         model = Notes
         fields = '__all__'
 
-    def to_representation(self, instance):
-        rep = super(NotesModelSerializer, self).to_representation(instance)
-        rep['project_name'] = instance.project_name.name
-        return rep
+    # def to_representation(self, instance):
+    #     rep = super(NotesModelSerializer, self).to_representation(instance)
+    #     rep['project_name'] = instance.project_name.name
+    #     return rep
