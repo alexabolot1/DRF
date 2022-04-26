@@ -21,12 +21,27 @@ class NotesForm extends React.Component {
         })
     }
 
+    handleProjectsChange(event) {
+        if (!event.target.selectedOptions) {
+            return
+        }
+
+        let project_name = []
+        for (let i = 0; i < event.target.selectedOptions.length; i++) {
+            project_name.push(parseInt(event.target.selectedOptions.item(i).value))
+        }
+
+        this.setState({
+            'project_name': project_name
+        })
+    }
+
     render() {
         return (
             <form onSubmit={(event) => this.handleSubmit(event)}>
-                <select onChange={(event) => this.handleChange(event)}>
+                <select multiple onChange={(event) => this.handleProjectsChange(event)}>
                     {this.props.project_name.map((project) => <option
-                        value={project.id}>{project.name}</option>)}
+                        value={project.id}>{project.users} {project.name} {project.link} </option>)}
                 </select>
                 <input
                     type="text"
