@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NoteItem = ({note}) => {
+const NoteItem = ({note, deleteNote}) => {
     return (
         <tr>
             <td>
@@ -12,11 +12,14 @@ const NoteItem = ({note}) => {
             <td>
                 {note.author_note}
             </td>
+            <td>
+                <button onClick={() => deleteNote(note.id)} type='button'>Delete</button>
+            </td>
         </tr>
     )
 }
 
-const NoteList = ({notes}) => {
+const NoteList = ({notes, deleteNote}) => {
     return (
         <table>
             <th>
@@ -28,7 +31,7 @@ const NoteList = ({notes}) => {
             <th>
                 Author note
             </th>
-            {notes.map((note) => <NoteItem note={note}/>)}
+            {notes.map((note) => <NoteItem note={note} deleteNote={deleteNote}/>)}
         </table>
     )
 }

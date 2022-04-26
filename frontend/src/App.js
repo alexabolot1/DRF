@@ -8,6 +8,7 @@ import ProjectList from "./components/Projects";
 import NoteList from "./components/Notes";
 import ProjectsInfo from "./components/ProjectInfo";
 import LoginForm from "./components/LoginForm";
+import ProjectForm from "./components/ProjectForm";
 
 const NotFound = () => {
     let location = useLocation()
@@ -101,7 +102,6 @@ class App extends React.Component {
 //        }
     }
 
-
     getToken(login, password) {
         console.log(login, password)
         axios
@@ -124,6 +124,30 @@ class App extends React.Component {
         }, this.getData)
     }
 
+    deleteProject(id) {
+        let headers = this.getHeader()
+        console.log(id)
+        axios
+            .delete(`http://127.0.0.1:8000/api/projects/${id}`, {headers})
+            .then(response => {
+                this.setState({
+                    projects: this.state.projects.filter((project) => project.id !== id)
+                })
+            }).catch(error => console.log(error))
+    }
+
+    deleteNote(id) {
+        let headers = this.getHeader()
+        console.log(id)
+        axios
+            .delete(`http://127.0.0.1:8000/api/notes/${id}`, {headers})
+            .then(response => {
+                this.setState({
+                    notes: this.state.notes.filter((note) => note.id !== id)
+                })
+            }).catch(error => console.log(error))
+    }
+
     render() {
         return (
             <div>
@@ -132,15 +156,20 @@ class App extends React.Component {
                         <li><Link to='/'>Users</Link></li>
                         <li><Link to='/notes'>Notes</Link></li>
                         <li><Link to='/projects'>Projects</Link></li>
+                        <li><Link to='/projects/create'>Create Project</Link></li>
+                        <li><Link to='/notes/create'>Create Notes</Link></li>
                         <li>
                             {this.isAuth() ? <button onClick={() => this.logout()}>Logout</button> :
                                 <Link to='/login'>Login</Link>}
                         </li>
+
                     </nav>
                     <Routes>
                         <Route exact path='/' element={<UserList users={this.state.users}/>}/>
-                        <Route exact path='/notes' element={<NoteList notes={this.state.notes}/>}/>
-                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects}/>}/>
+                        <Route exact path='/notes' element={<NoteList notes={this.state.notes}
+                                                                      deleteNote={(id) => this.deleteNote(id)}/>}/>
+                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects}
+                                                                            deleteProject={(id) => this.deleteProject(id)}/>}/>
                         <Route exact path='/users' element={<Navigate to='/'/>}/>
                         <Route exact path='/login'
                                element={<LoginForm getToken={(login, password) => this.getToken(login, password)}/>}/>
