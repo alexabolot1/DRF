@@ -4,14 +4,14 @@ class NotesForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            'project_name': '',
+            'projects': '',
             'text_note': '',
-            'author_note': ''
+            'users': ''
         }
     }
 
     handleSubmit(event) {
-        this.props.newNote(this.state.project_name, this.state.text_note, this.state.author_note)
+        this.props.newNote(this.state.projects, this.state.text_note, this.state.users)
         event.preventDefault()
     }
 
@@ -21,27 +21,18 @@ class NotesForm extends React.Component {
         })
     }
 
-    handleProjectsChange(event) {
-        if (!event.target.selectedOptions) {
-            return
-        }
-
-        let project_name = []
-        for (let i = 0; i < event.target.selectedOptions.length; i++) {
-            project_name.push(parseInt(event.target.selectedOptions.item(i).value))
-        }
-
+    handleNumberChange(event) {
         this.setState({
-            'project_name': project_name
+            [event.target.name]: parseInt(event.target.value)
         })
     }
 
     render() {
         return (
             <form onSubmit={(event) => this.handleSubmit(event)}>
-                <select multiple onChange={(event) => this.handleProjectsChange(event)}>
-                    {this.props.project_name.map((project) => <option
-                        value={project.id}>{project.users} {project.name} {project.link} </option>)}
+                <select name='projects' onChange={(event) => this.handleNumberChange(event)}>
+                    {this.props.projects.map((project) => <option
+                        value={project.id}>{project.name}</option>)}
                 </select>
                 <input
                     type="text"
@@ -50,9 +41,9 @@ class NotesForm extends React.Component {
                     onChange={(event) => this.handleChange(event)}
                     value={this.state.text_note}
                 />
-                <select onChange={(event) => this.handleChange(event)}>
-                    {this.props.author_note.map((author) => <option
-                        value={author.id}>{author.name}</option>)}
+                <select name='users' onChange={(event) => this.handleNumberChange(event)}>
+                    {this.props.users.map((user) => <option
+                        value={user.id}>{user.username}</option>)}
                 </select>
                 <input type="submit" value="Create"/>
             </form>

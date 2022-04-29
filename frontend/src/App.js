@@ -162,18 +162,18 @@ class App extends React.Component {
             })
     }
 
-    newNote(project_name, text_note, author_note) {
+    newNote(projects, text_note, users) {
         let headers = this.getHeader()
-        console.log(project_name, text_note, author_note)
-        // axios
-        //     .post('http://127.0.0.1:8000/api/notes/',
-        //         {'project_name': project_name, 'text_note': text_note, 'author_note': author_note}, {headers})
-        //     .then(response => {
-        //         this.getData()
-        //     })
-        //     .catch(error => {
-        //         console.log(error)
-        //     })
+        console.log(projects, text_note, users)
+        axios
+            .post('http://127.0.0.1:8000/api/notes/',
+                {'project_name': projects, 'text_note': text_note, 'author_note': users}, {headers})
+            .then(response => {
+                this.getData()
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     render() {
@@ -197,10 +197,10 @@ class App extends React.Component {
                         <Route exact path='/notes' element={<NoteList notes={this.state.notes}
                                                                       deleteNote={(id) => this.deleteNote(id)}/>}/>
                         <Route exact path='/notes/create'
-                               element={<NotesForm project_name={this.state.project_name}
-                                                   author_note = {this.state.author_note}
-                                                     newNote={(project_name, text_note, author_note) =>
-                                                         this.newNote(project_name, text_note, author_note)}/>}/>
+                               element={<NotesForm projects={this.state.projects}
+                                                   users = {this.state.users}
+                                                     newNote={(projects, text_note, users) =>
+                                                         this.newNote(projects, text_note, users)}/>}/>
                         <Route exact path='/projects' element={<ProjectList projects={this.state.projects}
                                                                             deleteProject={(id) => this.deleteProject(id)}/>}/>
                         <Route exact path='/projects/create'

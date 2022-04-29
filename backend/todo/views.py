@@ -21,8 +21,8 @@ class ProjectCustomViewSet(ModelViewSet):
     # pagination_class = ProjectLimitOffsetPagination
 
     # Фильтрация по названию - в названии должно присутствовать слово project.
-    def get_queryset(self):
-        return Project.objects.filter(name__contains='project')
+    # def get_queryset(self):
+    #     return Project.objects.filter(name__contains='project')
 
 
 # class NotesLimitOffsetPagination(LimitOffsetPagination):
@@ -34,9 +34,9 @@ class NotesCustomViewSet(ModelViewSet):
     serializer_class = NotesModelSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     # pagination_class = NotesLimitOffsetPagination
-    filterset_fields = ['project_name']
+    # filterset_fields = ['project_name']
 
-    def perform_destroy(self, instance):
-        instance.is_active = False
-        instance.save()
+    # def perform_destroy(self, instance):
+    #     instance.is_active = False
+    #     instance.save()
 
