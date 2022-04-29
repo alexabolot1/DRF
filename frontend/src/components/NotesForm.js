@@ -4,9 +4,9 @@ class NotesForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            'projects': '',
+            'projects': props.projects[0].id,
             'text_note': '',
-            'users': ''
+            'users': props.users[0].id
         }
     }
 
