@@ -12,3 +12,25 @@ services:
       POSTGRES_PASSWORD: geekbrains
       POSTGRES_DB: todo
 
+  backend:
+    build: ./backend
+    privileged: true
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    command: bash -c "
+      python manage.py migrate &&
+      gunicorn backend.wsgi -b 0.0.0.0:8080
+      "
+    environment:
+      DJANGO_SETTINGS_MODULE: 'backend.settings.prod'
+
+  nginx:
+    build: ./nginx
+    privileged: true
+    ports:
+      - 8000:80
+    depends_on:
+      - backend
